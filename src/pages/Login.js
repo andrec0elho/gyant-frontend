@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../assets/images/gyant-logo.svg';
 import { ButtonComponent, InputComponent } from '../components';
+import { AuthService, UserService } from '../services';
+import { setTokenStorage, setUserStorage } from '../services/utils.service';
 
 function Login(props) {
   const credentials = {
@@ -8,9 +10,28 @@ function Login(props) {
     password: null
   };
 
+  const authService = new AuthService();
+  const userService = new UserService();
+
   // handle button click of login form
-  const login = () => {
+  const login = async () => {
     console.log(credentials)
+    try {
+      const token = await authService.login(credentials);
+
+      if (!token) {
+        // TODO: Error
+      }
+      console.log(token)
+      setTokenStorage(token);
+      const user = await userService.getMyProfile();
+      console.log(user);
+      setUserStorage(user);
+    } catch (error) {
+      console.log(error)
+    }
+
+
     props.history.push('/dashboard');
   }
 

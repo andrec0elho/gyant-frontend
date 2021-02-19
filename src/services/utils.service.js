@@ -12,12 +12,25 @@ export const getToken = () => {
   return localStorage.getItem('token') || null;
 }
 
-export const removeUserSession = () => {
+export const removeUserStorage = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 }
 
-export const setUserSession = (token, user) => {
-  localStorage.setItem('token', token);
+export const setUserStorage = (user) => {
   localStorage.setItem('user', JSON.stringify(user));
+}
+
+export const setTokenStorage = (token) => {
+  localStorage.setItem('token', token);
+}
+
+export const createHeaders = (withToken = false) => {
+  const baseHeaders = { 'Content-Type': 'application/json' };
+
+  if (withToken) {
+    baseHeaders.Authorization = getToken();
+  }
+
+  return baseHeaders;
 }
