@@ -1,0 +1,12 @@
+@use '../styles/colors.scss';
+
+.headerBox {
+  height: 10vh;
+  background-color: colors.$white;
+
+  .headerContent {
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+  }
+}
