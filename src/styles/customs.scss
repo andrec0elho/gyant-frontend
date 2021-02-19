@@ -1,0 +1,19 @@
+@use './colors.scss';
+
+body > #root > div {
+  height: 100vh;
+}
+
+.row {
+  margin: 0;
+}
+
+[class*='col-'] {
+  padding: 0;
+}
+
+.btn-primary {
+  color: colors.$white;
+  background-color: colors.$mainBlue;
+  border-color: colors.$mainBlue;
+}

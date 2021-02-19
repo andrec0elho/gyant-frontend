@@ -1,0 +1,9 @@
+@use './styles/colors.scss';
+
+.pageBackground {
+  background-color: colors.$mainBackground;
+}
+
+.pb-1rem {
+  padding-bottom: 1rem;
+}
