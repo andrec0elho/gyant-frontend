@@ -1,0 +1,12 @@
+.dashboardContainer {
+  height: fit-content;
+
+  .conditionSection {
+    flex: 1;
+
+    .buttonBox {
+      width: 200px;
+      float: right;
+    }
+  }
+}
