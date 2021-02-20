@@ -29,5 +29,3 @@ export class HeaderComponent extends React.Component {
     )
   }
 }
-
-// git commit -m "feat: add new style to button component, put dynamic name and logout button on header component"

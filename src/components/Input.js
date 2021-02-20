@@ -9,8 +9,7 @@ export class InputComponent extends React.Component {
   }
 
   handleChange(e) {
-    const { name, value } = e.target;
-    console.log(name, value);
+    const { value } = e.target;
     this.onChange(value);
   }
 
@@ -35,7 +34,7 @@ export class InputComponent extends React.Component {
 
     return (
       <div className="w-100">
-        <label>{label}</label>
+        {label ? <label>{label}</label> : ''}
         {type === 'textarea' ?
           (<textarea {...fieldProps} className="form-control" />) :
           (<input {...fieldProps} className="form-control" />)
