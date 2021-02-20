@@ -1,0 +1,22 @@
+@use '../styles/colors.scss';
+
+.selectorBox {
+  height: 30vh;
+  background-color: colors.$white;
+  border-radius: 0.25rem;
+  border: 1px solid colors.$borderGrey;
+  overflow-y: scroll;
+
+  .selectorElement {
+    padding: 0.5rem 1rem;
+  }
+
+  .selectorElement:not(.selected):hover {
+    background-color: colors.$borderGrey;
+  }
+
+  .selected {
+    background-color: colors.$mainBlue;
+    color: colors.$white;
+  }
+}
