@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeaderComponent, InputComponent, SelectorComponent, ButtonComponent } from '../components';
+import { HeaderComponent, InputComponent, SelectorComponent, ButtonComponent, LoadingComponent } from '../components';
 import './Dashboard.scss';
 import { CaseService } from '../services';
 import { getUser } from '../services/utils.service';
@@ -20,9 +20,12 @@ export class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await this.caseService.getOpenCasesAndConditions();
-    const { cases, conditions } = data;
-    this.setState(() => ({ cases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: cases[0], loading: false }));
+    setTimeout(async () => {
+      const data = await this.caseService.getOpenCasesAndConditions();
+      const { cases, conditions } = data;
+      this.setState(() => ({ cases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: cases[0], loading: false }));
+    }, 1000);
+
   }
 
   saveCondition = async () => {
@@ -78,8 +81,8 @@ export class Dashboard extends React.Component {
               </div>
             </div>
           </div>}
-          {!this.state.loading && !this.state.currentCase && <div>No cases left</div>}
-          {this.state.loading && <div>Loading</div>}
+          {!this.state.loading && !this.state.currentCase && <div className="w-100 d-flex pt-3 justify-content-center">No cases left</div>}
+          {this.state.loading && <div className="loadingContainer"><LoadingComponent /></div>}
         </div>
       </div>
 
