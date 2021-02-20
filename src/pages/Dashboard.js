@@ -2,17 +2,20 @@ import React from 'react';
 import { HeaderComponent, InputComponent, SelectorComponent, ButtonComponent } from '../components';
 import './Dashboard.scss';
 import { CaseService } from '../services';
+import { getUser } from '../services/utils.service';
 
 export class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.caseService = new CaseService();
+    const user = getUser();
     this.state = {
       loading: true,
       currentCondition: null,
       currentCase: null,
       conditions: [],
-      cases: []
+      cases: [],
+      userName: user.name,
     };
   }
 
@@ -49,7 +52,7 @@ export class Dashboard extends React.Component {
   render() {
     return (
       <div className="h-100 d-flex flex-column">
-        <HeaderComponent name="André Coelho" />
+        <HeaderComponent name={this.state.userName} />
         <div className="d-flex flex1 px-5">
           {!this.state.loading && this.state.currentCase && <div className="row w-100 pt-3 dashboardContainer">
             <div className="col-6 pr-3">
