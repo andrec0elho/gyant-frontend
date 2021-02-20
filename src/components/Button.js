@@ -11,6 +11,9 @@ export class ButtonComponent extends React.Component {
       case 'green':
         styleClass += ' btn-success';
         break;
+      case 'red':
+        styleClass += ' btn-danger';
+        break;
       default:
         styleClass += ' btn-primary';
         break;
