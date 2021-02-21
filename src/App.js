@@ -9,19 +9,12 @@ import { storeLogout, storeLogin } from './store/actions';
 import { store } from './store/store';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.log(this.props)
-    console.log(store.getState())
-  }
 
   render() {
     return (
       <div className="pageBackground">
         <Router>
           <Route exact path="/" component={Login} />
-          {/* <Route path="/dashboard" component={dashboard} /> */}
           <GuardedRoute path='/dashboard' component={Dashboard} auth={store.getState()?.authentication?.authenticated} />
         </Router>
       </div>

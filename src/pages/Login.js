@@ -12,8 +12,7 @@ import { store } from '../store/store';
 export class Login extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
-    console.log(store.getState())
+
     this.state = {
       credentials: {
         email: null,
@@ -30,7 +29,6 @@ export class Login extends React.Component {
   }
 
   login = async () => {
-    console.log(this.state.credentials)
 
     if (!this.isEmailValid(this.state.credentials.email)) {
       toast.error("Please use a valid email");
