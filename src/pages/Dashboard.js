@@ -30,6 +30,7 @@ export class Dashboard extends React.Component {
 
   saveCondition = async () => {
     console.log(this.state.currentCase, this.state.currentCondition)
+    this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }))
   }
 
   nextCase = () => {
@@ -70,12 +71,12 @@ export class Dashboard extends React.Component {
                 <div className="conditionSection">
                   <SelectorComponent list={this.state.conditions} onSelect={this.selectedCondition} />
                   <div className="buttonBox py-3">
-                    <ButtonComponent buttonClick={this.saveCondition} label={"Save Condition"} buttonStyle={'green'} />
+                    <ButtonComponent buttonClick={this.saveCondition} label={"Save Condition"} buttonStyle={'green'} disabled={!this.state.currentCondition} />
                   </div>
                 </div>
                 <div className="w-100">
                   <div className="buttonBox pt-3">
-                    <ButtonComponent buttonClick={this.nextCase} label={"Next case"} />
+                    <ButtonComponent buttonClick={this.nextCase} label={"Next case"} disabled={!this.state.currentCase?.condition} />
                   </div>
                 </div>
               </div>
