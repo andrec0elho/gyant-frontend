@@ -5,6 +5,7 @@ import { CaseService } from '../services';
 import { getUser } from '../services/utils.service';
 import { FaRegSmileBeam, FaGrimace } from 'react-icons/fa';
 import HeaderComponent from '../components/Header';
+import { toast, ToastContainer } from 'react-toastify';
 
 export class Dashboard extends React.Component {
   constructor(props) {
@@ -44,16 +45,23 @@ export class Dashboard extends React.Component {
         conditionId: this.state.currentCondition._id
       };
       await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
-      this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }))
+      this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }));
+      toast.success("Case updated sucessfully");
     } catch (error) {
-      // TODO: Handle error
+      toast.success("Failed to update case. Please try again or login again");
     }
   }
 
   nextCase = () => {
     this.setState(({ cases, conditions }) => {
       const [, ...nextCases] = cases;
-      return { cases: nextCases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: nextCases[0], currentCondition: null };
+      const newCurrentCase = nextCases[0];
+      return {
+        cases: nextCases,
+        conditions: conditions.map(condition => ({ ...condition, selected: false })),
+        currentCase: newCurrentCase,
+        currentCondition: null
+      };
     });
   }
 
@@ -79,14 +87,14 @@ export class Dashboard extends React.Component {
             <div className="col-6 pr-3">
               <h5>Case description</h5>
               <div className="w-100">
-                <InputComponent type="textarea" value={this.state.currentCase?.description} rows="20" />
+                <InputComponent type="textarea" value={this.state.currentCase.description} rows="20" disabled="true" />
               </div>
             </div>
             <div className="col-6 pl-3 d-flex flex-column">
               <h5>Conditions</h5>
               <div className="d-flex flex-column conditionSection">
                 <div className="conditionSection">
-                  <SelectorComponent list={this.state.conditions} onSelect={this.selectedCondition} />
+                  <SelectorComponent list={this.state.conditions} key={this.state.currentCase._id} onSelect={this.selectedCondition} />
                   <div className="buttonBox py-3">
                     <ButtonComponent buttonClick={this.saveCondition} label={"Save Condition"} buttonStyle={'green'} disabled={!this.state.currentCondition} />
                   </div>
@@ -115,6 +123,7 @@ export class Dashboard extends React.Component {
             <h5>Ups... Something went wrong. Please logout and login again</h5>
           </div>
         </div>}
+        <ToastContainer position="bottom-center" />
       </div>
     )
   }

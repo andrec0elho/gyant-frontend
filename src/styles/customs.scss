@@ -17,3 +17,7 @@ body > #root > div {
   background-color: colors.$mainBlue;
   border-color: colors.$mainBlue;
 }
+
+.form-control:disabled {
+  background-color: colors.$white;
+}
