@@ -18,7 +18,7 @@ export class SelectorComponent extends React.Component {
 
   render() {
     return (
-      <div key={this.props.key} className="selectorBox">
+      <div key={this.props.customKey} className="selectorBox">
         {(this.state?.items || []).map((elem, i) => (
           <div className={classNames("selectorElement", { "selected": elem.selected })} onClick={() => this.selectedElement(elem, i)} key={i}>({elem.code}) {elem.name}</div>
         ))}
