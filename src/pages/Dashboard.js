@@ -3,6 +3,8 @@ import { HeaderComponent, InputComponent, SelectorComponent, ButtonComponent, Lo
 import './Dashboard.scss';
 import { CaseService } from '../services';
 import { getUser } from '../services/utils.service';
+import { FaRegSmileBeam, FaGrimace } from 'react-icons/fa';
+
 
 export class Dashboard extends React.Component {
   constructor(props) {
@@ -16,27 +18,42 @@ export class Dashboard extends React.Component {
       conditions: [],
       cases: [],
       userName: user.name,
+      errors: {
+        onLoading: false,
+      }
     };
   }
 
   async componentDidMount() {
     setTimeout(async () => {
-      const data = await this.caseService.getOpenCasesAndConditions();
-      const { cases, conditions } = data;
-      this.setState(() => ({ cases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: cases[0], loading: false }));
-    }, 1000);
+      try {
+        const data = await this.caseService.getOpenCasesAndConditions();
+        const { cases, conditions } = data;
+        this.setState(() => ({ cases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: cases[0], loading: false }));
+      } catch (error) {
+        this.setState(({ errors }) => ({ errors: { ...errors, onLoading: true } }));
+      }
+    }, 200);
 
   }
 
   saveCondition = async () => {
-    console.log(this.state.currentCase, this.state.currentCondition)
-    this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }))
+    try {
+      const fieldsToUpdate = {
+        evaluated: true,
+        conditionId: this.state.currentCondition._id
+      };
+      await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
+      this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }))
+    } catch (error) {
+      // TODO: Handle error
+    }
   }
 
   nextCase = () => {
     this.setState(({ cases, conditions }) => {
       const [, ...nextCases] = cases;
-      return { cases: nextCases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: nextCases[0] };
+      return { cases: nextCases, conditions: conditions.map(condition => ({ ...condition, selected: false })), currentCase: nextCases[0], currentCondition: null };
     });
   }
 
@@ -57,7 +74,7 @@ export class Dashboard extends React.Component {
     return (
       <div className="h-100 d-flex flex-column">
         <HeaderComponent name={this.state.userName} />
-        <div className="d-flex flex1 px-5">
+        {!this.state.errors.onLoading && <div className="d-flex flex1 px-5">
           {!this.state.loading && this.state.currentCase && <div className="row w-100 pt-3 dashboardContainer">
             <div className="col-6 pr-3">
               <h5>Case description</h5>
@@ -82,11 +99,23 @@ export class Dashboard extends React.Component {
               </div>
             </div>
           </div>}
-          {!this.state.loading && !this.state.currentCase && <div className="w-100 d-flex pt-3 justify-content-center">No cases left</div>}
+          {!this.state.loading && !this.state.currentCase && <div className="w-100 pt-3 text-center">
+            <div className="py-3 iconSize">
+              <FaRegSmileBeam />
+            </div>
+            <h5>No cases left to evaluate</h5>
+          </div>}
           {this.state.loading && <div className="loadingContainer"><LoadingComponent /></div>}
-        </div>
+        </div>}
+        {this.state.errors.onLoading && <div className="d-flex flex1 px-5">
+          <div className="w-100 pt-3 text-center">
+            <div className="py-3 iconSize">
+              <FaGrimace />
+            </div>
+            <h5>Ups... Something went wrong. Please logout and login again</h5>
+          </div>
+        </div>}
       </div>
-
     )
   }
 }
