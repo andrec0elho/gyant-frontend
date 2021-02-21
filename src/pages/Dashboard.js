@@ -44,7 +44,7 @@ export class Dashboard extends React.Component {
         evaluated: true,
         conditionId: this.state.currentCondition._id
       };
-      await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
+      // await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
       this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }));
       toast.success("Case updated sucessfully");
     } catch (error) {
@@ -94,7 +94,7 @@ export class Dashboard extends React.Component {
               <h5>Conditions</h5>
               <div className="d-flex flex-column conditionSection">
                 <div className="conditionSection">
-                  <SelectorComponent list={this.state.conditions} customKey={this.state.currentCase._id} onSelect={this.selectedCondition} />
+                  <SelectorComponent list={this.state.conditions} key={this.state.currentCase._id} onSelect={this.selectedCondition} />
                   <div className="buttonBox py-3">
                     <ButtonComponent buttonClick={this.saveCondition} label={"Save Condition"} buttonStyle={'green'} disabled={!this.state.currentCondition} />
                   </div>
