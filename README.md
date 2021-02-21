@@ -11,3 +11,4 @@
 1. Check .env file to see if the ports and api url is correct
 2. Run `npm i`
 3. Run `npm start` to start the application
+4. The credentials to login are: email: andre@gyant.com, password: MyPassword123
