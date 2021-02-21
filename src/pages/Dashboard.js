@@ -44,7 +44,7 @@ export class Dashboard extends React.Component {
         evaluated: true,
         conditionId: this.state.currentCondition._id
       };
-      // await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
+      await this.caseService.updateCase(this.state.currentCase._id, fieldsToUpdate);
       this.setState(({ currentCase }) => ({ currentCase: { ...currentCase, condition: this.state.currentCondition._id } }));
       toast.success("Case updated sucessfully");
     } catch (error) {
@@ -82,15 +82,15 @@ export class Dashboard extends React.Component {
     return (
       <div className="h-100 d-flex flex-column">
         <HeaderComponent name={this.state.userName} />
-        {!this.state.errors.onLoading && <div className="d-flex flex1 px-5">
+        {!this.state.errors.onLoading && <div className="d-flex flex1 px-3 px-md-5">
           {!this.state.loading && this.state.currentCase && <div className="row w-100 pt-3 dashboardContainer">
-            <div className="col-6 pr-3">
+            <div className="col-12 col-md-6 pr-md-3">
               <h5>Case description</h5>
               <div className="w-100">
                 <InputComponent type="textarea" value={this.state.currentCase.description} rows="20" disabled="true" />
               </div>
             </div>
-            <div className="col-6 pl-3 d-flex flex-column">
+            <div className="col-12 col-md-6 py-3 py-md-0 pl-md-3 d-flex flex-column">
               <h5>Conditions</h5>
               <div className="d-flex flex-column conditionSection">
                 <div className="conditionSection">

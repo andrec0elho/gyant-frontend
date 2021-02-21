@@ -19,11 +19,11 @@ class HeaderComponent extends React.Component {
   render() {
     const { name } = this.props;
     return (
-      <div className="w-100 px-5 headerBox d-flex">
+      <div className="w-100 px-3 px-md-5 headerBox d-flex">
         <img src={logoPng} className="mh-100" alt="logo" />
 
         <div className="w-100 headerContent">
-          <div className="px-3">Welcome, {name}</div>
+          <div className="px-3 d-none d-lg-block">Welcome, {name}</div>
           <Link to="/">
             <ButtonComponent buttonClick={this.onLogout} label={"Logout"} buttonStyle={'red'} />
           </Link>
