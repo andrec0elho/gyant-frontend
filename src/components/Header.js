@@ -4,11 +4,15 @@ import logoPng from '../assets/images/gyant-logo.png';
 import { Link } from 'react-router-dom';
 import { ButtonComponent } from './Button';
 import { removeUserStorage } from '../services/utils.service';
+import { connect } from 'react-redux';
+import { storeLogout } from '../store/actions';
+import { store } from '../store/store';
 
 
-export class HeaderComponent extends React.Component {
+class HeaderComponent extends React.Component {
 
   onLogout = () => {
+    store.dispatch(storeLogout());
     removeUserStorage();
   }
 
@@ -29,3 +33,13 @@ export class HeaderComponent extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  storeLogout: () => dispatch(storeLogout),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);

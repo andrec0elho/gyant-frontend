@@ -1,14 +1,15 @@
 import React from 'react';
-import { HeaderComponent, InputComponent, SelectorComponent, ButtonComponent, LoadingComponent } from '../components';
+import { InputComponent, SelectorComponent, ButtonComponent, LoadingComponent } from '../components';
 import './Dashboard.scss';
 import { CaseService } from '../services';
 import { getUser } from '../services/utils.service';
 import { FaRegSmileBeam, FaGrimace } from 'react-icons/fa';
-
+import HeaderComponent from '../components/Header';
 
 export class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props)
     this.caseService = new CaseService();
     const user = getUser();
     this.state = {

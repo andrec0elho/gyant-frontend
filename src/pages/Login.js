@@ -5,10 +5,15 @@ import { AuthService, UserService } from '../services';
 import { setTokenStorage, setUserStorage } from '../services/utils.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { storeLogin } from '../store/actions';
+import { connect } from 'react-redux';
+import { store } from '../store/store';
 
 export class Login extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props)
+    console.log(store.getState())
     this.state = {
       credentials: {
         email: null,
@@ -45,6 +50,7 @@ export class Login extends React.Component {
       const user = await this.userService.getMyProfile();
       setUserStorage(user);
 
+      store.dispatch(storeLogin());
       this.props.history.push('/dashboard');
     } catch (error) {
       toast.error("Invalid credentials");
@@ -104,5 +110,12 @@ export class Login extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  ...state
+});
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  storeLogin: () => dispatch(storeLogin),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
